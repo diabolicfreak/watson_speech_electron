@@ -3,6 +3,7 @@ const ffmpeg = require('fluent-ffmpeg');
 const axios = require('axios');
 const watson = require('watson-developer-cloud');
 require('dotenv').config();
+require('electron-reload')(__dirname);
 
 const { app, BrowserWindow, ipcMain } = electron;
 let mainWindow;
@@ -25,7 +26,6 @@ function (err, token) {
   if (!token) {
     console.log('error:', err);
   } else {
-    console.log("token "+token);
     mainWindow.webContents.send(
       'watson:token',
       token

@@ -14,5 +14,8 @@
     "electron": "^1.8.4",
     "fluent-ffmpeg": "^2.1.2",
     "watson-developer-cloud": "^3.2.1"
+  },
+  "devDependencies": {
+    "electron-reload": "^1.2.2"
   }
 }
