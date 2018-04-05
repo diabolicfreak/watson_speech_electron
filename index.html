@@ -20,23 +20,32 @@
   <script>
     const electron = require('electron');
     const { ipcRenderer } = electron;
-
-    document.querySelector('form').addEventListener('submit', (event) => {
+    
+    /**Get token for watson */
+    var tokenText;
+    ipcRenderer.on('watson:token', (event, token)=>{
+      console.log("ipcrenderer "+token);
+      tokenText = token;
+    });
+    
+    /**Write text to output element */
+    document.querySelector('form').addEventListener('submit', function(event){
       event.preventDefault();
       const path = document.querySelector('input').files[0].path;
       ipcRenderer.send('video:submit', path);
-      
-      let token = "PawdYP581WnvD4S8TmqADQ51ElKFPh3pkZVE9rHLg52uaNZmcVZ77ALu2quv6LvlWjWi176xaiZ4CU95hXz0TpfAwqoKnLx6i7TgoBYDlVAiOr0dmDOs9hyaHBLcEjd8tfzj0b7NjI102TaxXxy5fjvTn4SCLVRbWbbdj%2BgQoxQxGmhjrbL%2FQJeBkC4KcLW%2Fw%2B1rEnDtgZm9DCq5oq6q0AwCNNtviZcawWD6Rvmk2lMPWizDiE3aPG6xZ17kziYuHZpkFKFadrSY%2BaVbcnibwDClehAYthcrg3qMTYcVkAtI5Go7c5DyXGuq%2BD4BHESaGaOwV4hwUvgkp%2B%2BLRQGV2zL0tMA0QMxumEIEtBamfiNyKUAgjC0TwAveqb2GUEnNMpX5BofrMfd4LLwmerFDyvYObkEe0d%2Fqm53Xup25wgpCGiForJie0%2FVUZItB5Q1Qq35RGfh97%2Bn5J3tnuUuk8GGJw5SScGVhk40XSTynfjuRhaXoZ2X4YGj1kbL2BsncoJvt0yzt8S8vOOUUZNCs4NqhDROsNCIOe3fzrLlmbalWFIUO%2FfDC8lzRARjOEYlbOnQp92%2FokOjdmHSmzzgqqin906htZUHrlPCyfIl3on%2FE6XDaEsyhJvIfMeBZdy0n7yVzH7VH%2BOenHVndacJXXmsLLokYH5tiulpCnElgIvQjMsAqOhNBA%2Fg2y7ucNwv27Q1convQN59xR3NwojExOyW33BmLOmPMG1zqVoUot%2BeSQUzLq1MtR0eGsOf6pqaGwNhlGHrVo%2FK9ZETI8qZDEjt09JSOleQIdGOeJItcSQxcFTbcdOkzASq%2FzfcKMba6brKMwamoMFyo8VqJayAFJefzHvnPtVFC%2FQDwjuxN8nLNysW2unOQk25%2BZMNxkQErXz8gD6OZUwiJzz44nJtCmWzyemz6z%2B8qBU4lBhfdm1d1iU2pBxaXU%2BADFr9y76eq46byPrdvzAdxOhl%2FI9oXWGaEvqtGIk6i";
+
       let file = document.querySelector('input').files[0];
       let stream = WatsonSpeech.SpeechToText.recognizeFile({
         file: file, 
-        token: token,
+        token: tokenText,
         play: true,
         outputElement: '#outputText' 
       });
       stream.on('error', (err)=>{
         console.log("error: "+err);
       });
+      
+
     });
 
     ipcRenderer.on('video:metadata', (event, duration)=>{
