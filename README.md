@@ -2,6 +2,6 @@ Desktop application usng electronjs capable of converting speech to text based o
 
 Usage
 1. `git clone` project
-2. `npm install`
+2. `npm install` & `sudo apt install ffmpeg`
 3. `npx electron .` to run the project
 4. Upload speech file(eg .mp3) and hit 'Start transcribing' button to see the converted text. 
